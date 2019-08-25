@@ -75,4 +75,14 @@ public class PersonneDAO {
     public void update(Personne personne) {
         System.out.println("Membre déjà inscrit !");
     }
+
+    public ResultSet selectAll() {
+        String query = "SELECT id, name, firstName, age FROM members";
+        try {
+            return conn.createStatement().executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

@@ -14,6 +14,7 @@ public class Personne extends Profil implements Serializable {
     private String nom;
     private String prenom;
     private int age;
+
     private HashMap<String, Sport> sports = new HashMap<>();
     private HashMap<String, Club> clubs = new HashMap<>();
 

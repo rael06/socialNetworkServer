@@ -65,29 +65,51 @@ public class Main {
 
                 } else if (o.toString().equals("sports")) {
                     SportDAO sportDAO = new SportDAO(conn);
-                    Map<String,Sport> sports = new HashMap<>();
+                    Map<String, Sport> sports = new HashMap<>();
                     ResultSet rs = sportDAO.selectAll();
                     String sportName;
                     while (rs.next()) {
                         sportName = rs.getString("name");
-                        System.out.println(sportName);
-                        sports.put(sportName,new Sport(sportName));
+                        sports.put(sportName, new Sport(sportName));
                     }
                     oos.writeObject(sports);
                     oos.flush();
                     oos.close();
+
                 } else if (o.toString().equals("clubs")) {
                     ClubDAO clubDAO = new ClubDAO(conn);
-                    Map<String,Club> clubs = new HashMap<>();
+                    Map<String, Club> clubs = new HashMap<>();
                     ResultSet rs = clubDAO.selectAll();
                     String clubName;
                     while (rs.next()) {
                         clubName = rs.getString("name");
-                        clubs.put(clubName,new Club(clubName));
+                        clubs.put(clubName, new Club(clubName));
                     }
                     oos.writeObject(clubs);
                     oos.flush();
                     oos.close();
+                } else if (o.toString().equals("personnes")) {
+                    PersonneDAO personneDAO = new PersonneDAO(conn);
+                    Map<String, Personne> personnes = new HashMap<>();
+                    ResultSet rs = personneDAO.selectAll();
+                    String memberName;
+                    String memberFirstName;
+                    int memberAge;
+                    Sport sport;
+                    Club club;
+
+                    while (rs.next()) {
+                        memberName = rs.getString("name");
+                        memberFirstName = rs.getString("firstName");
+                        memberAge = rs.getInt("age");
+                        Personne personne = new Personne(memberName, memberFirstName, memberAge);
+
+                        personnes.put(memberName, personne);
+                    }
+                    oos.writeObject(personnes);
+                    oos.flush();
+                    oos.close();
+
                 }
             } while (true);
         } catch (IOException | ClassNotFoundException | SQLException e) {
