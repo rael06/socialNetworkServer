@@ -17,6 +17,10 @@ import java.net.Socket;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Main {
 
@@ -28,13 +32,13 @@ public class Main {
             do {
                 Socket socket = serverSocket.accept();
                 ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-//                ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+                ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
                 Object o = ois.readObject();
 
                 if (o instanceof Personne) {
                     PersonneDAO personneDAO = new PersonneDAO(conn);
                     Personne personne = (Personne) o;
-                    personne.afficher();
+//                    personne.afficher();
                     ResultSet rs = personneDAO.findByNameFirstName(personne.getNom(), personne.getPrenom());
                     rs.last();
                     int size = rs.getRow();
@@ -58,10 +62,33 @@ public class Main {
                     int size = rs.getRow();
                     if (size == 0) clubDAO.create(club);
                     else clubDAO.update(club);
-                }
 
-//                oos.writeObject("true");
-//                oos.flush();
+                } else if (o.toString().equals("sports")) {
+                    SportDAO sportDAO = new SportDAO(conn);
+                    Map<String,Sport> sports = new HashMap<>();
+                    ResultSet rs = sportDAO.selectAll();
+                    String sportName;
+                    while (rs.next()) {
+                        sportName = rs.getString("name");
+                        System.out.println(sportName);
+                        sports.put(sportName,new Sport(sportName));
+                    }
+                    oos.writeObject(sports);
+                    oos.flush();
+                    oos.close();
+                } else if (o.toString().equals("clubs")) {
+                    ClubDAO clubDAO = new ClubDAO(conn);
+                    Map<String,Club> clubs = new HashMap<>();
+                    ResultSet rs = clubDAO.selectAll();
+                    String clubName;
+                    while (rs.next()) {
+                        clubName = rs.getString("name");
+                        clubs.put(clubName,new Club(clubName));
+                    }
+                    oos.writeObject(clubs);
+                    oos.flush();
+                    oos.close();
+                }
             } while (true);
         } catch (IOException | ClassNotFoundException | SQLException e) {
             e.printStackTrace();

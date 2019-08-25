@@ -37,4 +37,14 @@ public class SportDAO {
     public void update(Sport sport) {
         System.out.println("Le sport existe déjà !");
     }
+
+    public ResultSet selectAll() {
+        String query = "SELECT id, name FROM sports";
+        try {
+            return conn.createStatement().executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

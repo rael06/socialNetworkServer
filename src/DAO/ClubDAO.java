@@ -37,5 +37,15 @@ public class ClubDAO {
     public void update(Club club) {
         System.out.println("Le club existe déjà !");
     }
+
+    public ResultSet selectAll() {
+        String query = "SELECT id, name FROM clubs";
+        try {
+            return conn.createStatement().executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
 
