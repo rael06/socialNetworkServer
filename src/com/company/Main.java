@@ -14,6 +14,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -95,15 +96,24 @@ public class Main {
                     String memberName;
                     String memberFirstName;
                     int memberAge;
-                    Sport sport;
-                    Club club;
+                    String[] memberSports = new String[]{};
+                    String[] memberClubs = new String[]{};
 
                     while (rs.next()) {
                         memberName = rs.getString("name");
                         memberFirstName = rs.getString("firstName");
                         memberAge = rs.getInt("age");
+                        if (rs.getString("sports") != null)
+                            memberSports = rs.getString("sports").split(" ");
+                        if (rs.getString("clubs") != null)
+                            memberClubs = rs.getString("clubs").split(" ");
                         Personne personne = new Personne(memberName, memberFirstName, memberAge);
-
+                        for (String sportString : memberSports) {
+                            personne.setSport(new Sport(sportString));
+                        }
+                        for (String clubString : memberClubs) {
+                            personne.setClub(new Club(clubString));
+                        }
                         personnes.put(memberName, personne);
                     }
                     oos.writeObject(personnes);

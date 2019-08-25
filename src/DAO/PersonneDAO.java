@@ -77,7 +77,20 @@ public class PersonneDAO {
     }
 
     public ResultSet selectAll() {
-        String query = "SELECT id, name, firstName, age FROM members";
+        String query = "SELECT members.id, members.name, firstName, age, " +
+                "GROUP_CONCAT(sports.name SEPARATOR ' ') AS sports, " +
+                "GROUP_CONCAT(clubs.name SEPARATOR ' ') AS clubs " +
+                "FROM members " +
+                "LEFT OUTER JOIN members_sports " +
+                "ON members.id = members_sports.idMember " +
+                "LEFT OUTER JOIN sports " +
+                "ON sports.id = members_sports.idSport " +
+                "LEFT OUTER JOIN members_clubs " +
+                "ON members.id = members_clubs.idMember " +
+                "LEFT OUTER JOIN clubs " +
+                "ON clubs.id = members_clubs.idClub " +
+                "GROUP BY members.id " +
+                "ORDER BY members.name, firstName";
         try {
             return conn.createStatement().executeQuery(query);
         } catch (SQLException e) {
