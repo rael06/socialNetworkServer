@@ -4,37 +4,37 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Map;
 
 
 public class ReseauSocial implements Serializable {
 
-    private Hashtable<String, Personne> personnes = new Hashtable<>();
-    private Hashtable<String, Sport> sports = new Hashtable<>();
-    private Hashtable<String, Club> clubs = new Hashtable<>();
+    private HashMap<String, Personne> personnes = new HashMap<>();
+    private HashMap<String, Sport> sports = new HashMap<>();
+    private HashMap<String, Club> clubs = new HashMap<>();
 
-    public Hashtable<String, Personne> getPersonnes() {
+    public HashMap<String, Personne> getPersonnes() {
         return personnes;
     }
 
-    public void setPersonnes(Hashtable<String, Personne> personnes) {
+    public void setPersonnes(HashMap<String, Personne> personnes) {
         this.personnes = personnes;
     }
 
-    public Hashtable<String, Sport> getSports() {
+    public HashMap<String, Sport> getSports() {
         return sports;
     }
 
-    public void setSports(Hashtable<String, Sport> sports) {
+    public void setSports(HashMap<String, Sport> sports) {
         this.sports = sports;
     }
 
-    public Hashtable<String, Club> getClubs() {
+    public HashMap<String, Club> getClubs() {
         return clubs;
     }
 
-    public void setClubs(Hashtable<String, Club> clubs) {
+    public void setClubs(HashMap<String, Club> clubs) {
         this.clubs = clubs;
     }
 
@@ -46,16 +46,12 @@ public class ReseauSocial implements Serializable {
     }
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        personnes = (Hashtable<String, Personne>) in.readObject();
-        sports = (Hashtable<String, Sport>) in.readObject();
-        clubs = (Hashtable<String, Club>) in.readObject();
+        personnes = (HashMap<String, Personne>) in.readObject();
+        sports = (HashMap<String, Sport>) in.readObject();
+        clubs = (HashMap<String, Club>) in.readObject();
     }
 
     public ReseauSocial() {
-
-        personnes = new Hashtable<>();
-        sports = new Hashtable<>();
-        clubs = new Hashtable<>();
 
         //create persons
         createPerson(new Personne("CALITRO", "Rael", 36));

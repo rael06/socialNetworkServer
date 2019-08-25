@@ -1,11 +1,12 @@
 package DAO;
 
 import ReseauSocial.Personne;
+import ReseauSocial.Sport;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.HashMap;
 
 public class PersonneDAO {
     private Connection conn;
@@ -14,10 +15,11 @@ public class PersonneDAO {
         this.conn = conn;
     }
 
-    public void create(Personne personne) throws SQLException {
+    public void create(Personne personne) {
         String name = personne.getNom();
         String firstname = personne.getPrenom();
         int age = personne.getAge();
+        HashMap<String, Sport> sports = personne.getSports();
 
         String addMember = "INSERT INTO members (name, firstName, age) VALUES ('" + name + "','" + firstname + "'," + age + ")";
         try {
@@ -32,8 +34,7 @@ public class PersonneDAO {
                 "WHERE name = '" + name.toUpperCase() + "' AND firstName = '" +
                 (firstName.charAt(0) + "").toUpperCase() + firstName.substring(1) + "'";
         try {
-            ResultSet result = conn.createStatement().executeQuery(query);
-            return result;
+            return conn.createStatement().executeQuery(query);
         } catch (SQLException e) {
             e.printStackTrace();
         }
