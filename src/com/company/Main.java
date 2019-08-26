@@ -46,18 +46,19 @@ public class Main {
                         if (personne.getId() == 0) personneDAO.create(personne);
                         else personneDAO.update(personne);
                     }
-                    oos.writeObject(null);
+                    oos.writeObject(true);
 
                     // Sport creation
                 } else if (commandObject instanceof Sport) {
                     SportDAO sportDAO = new SportDAO(conn);
                     Sport sport = (Sport) commandObject;
-                    ResultSet rs = sportDAO.findByName(sport.getNom());
-                    rs.last();
-                    int size = rs.getRow();
-                    if (size == 0) sportDAO.create(sport);
-                    else sportDAO.update(sport);
-                    oos.writeObject(null);
+                    if (commandType.equals("delete")) {
+                        sportDAO.delete(sport);
+                    } else {
+                        if (sport.getId() == 0) sportDAO.create(sport);
+                        else sportDAO.update(sport);
+                    }
+                    oos.writeObject(true);
 
                     // Club creation
                 } else if (commandObject instanceof Club) {
@@ -68,17 +69,20 @@ public class Main {
                     int size = rs.getRow();
                     if (size == 0) clubDAO.create(club);
                     else clubDAO.update(club);
-                    oos.writeObject(null);
+                    oos.writeObject(true);
 
                     // sports' request
                 } else if (commandObject.toString().equals("sports")) {
                     SportDAO sportDAO = new SportDAO(conn);
                     Map<String, Sport> sports = new HashMap<>();
                     ResultSet rs = sportDAO.selectAll();
+                    int sportId;
                     String sportName;
                     while (rs.next()) {
+                        sportId = rs.getInt("id");
                         sportName = rs.getString("name");
-                        sports.put(sportName, new Sport(sportName));
+                        Sport sport = new Sport(sportId, sportName);
+                        sports.put(sportName, sport);
                     }
                     oos.writeObject(sports);
 

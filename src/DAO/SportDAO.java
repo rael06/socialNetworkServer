@@ -35,7 +35,17 @@ public class SportDAO {
     }
 
     public void update(Sport sport) {
-        System.out.println("Le sport existe déjà !");
+
+        int id = sport.getId();
+        String name = sport.getNom();
+
+        String updateSport = "UPDATE sports SET name = '" + name + "' " +
+                "WHERE id = " + id;
+        try {
+            conn.createStatement().executeUpdate(updateSport);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public ResultSet selectAll() {
@@ -46,5 +56,15 @@ public class SportDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void delete(Sport sport) {
+        int id = sport.getId();
+        String query = "DELETE FROM sports WHERE id = " + id;
+        try {
+            conn.createStatement().executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

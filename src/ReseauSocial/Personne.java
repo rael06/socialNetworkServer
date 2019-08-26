@@ -71,7 +71,7 @@ public class Personne implements Serializable {
     public Personne(int _id, String _nom, String _prenom, int _age) {
         id = _id;
         nom = _nom;
-        prenom = (_prenom.charAt(0) + "").toUpperCase() + _prenom.substring(1);
+        prenom = _prenom;
         age = _age;
     }
 
