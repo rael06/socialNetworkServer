@@ -36,17 +36,19 @@ public class Main {
                 String commandType = (String) request.keySet().toArray()[0];
                 Object commandObject = request.values().toArray()[0];
 
+                // Personne creation or update
                 if (commandObject instanceof Personne) {
                     PersonneDAO personneDAO = new PersonneDAO(conn);
                     Personne personne = (Personne) commandObject;
-//                    personne.afficher();
-                    ResultSet rs = personneDAO.findByNameFirstName(personne.getNom(), personne.getPrenom());
-                    rs.last();
-                    int size = rs.getRow();
-                    if (size == 0) personneDAO.create(personne);
-                    else personneDAO.update(personne);
+                    if (commandType.equals("delete")) {
+                        personneDAO.delete(personne);
+                    } else {
+                        if (personne.getId() == 0) personneDAO.create(personne);
+                        else personneDAO.update(personne);
+                    }
                     oos.writeObject(null);
 
+                    // Sport creation
                 } else if (commandObject instanceof Sport) {
                     SportDAO sportDAO = new SportDAO(conn);
                     Sport sport = (Sport) commandObject;
@@ -57,6 +59,7 @@ public class Main {
                     else sportDAO.update(sport);
                     oos.writeObject(null);
 
+                    // Club creation
                 } else if (commandObject instanceof Club) {
                     ClubDAO clubDAO = new ClubDAO(conn);
                     Club club = (Club) commandObject;
@@ -67,6 +70,7 @@ public class Main {
                     else clubDAO.update(club);
                     oos.writeObject(null);
 
+                    // sports' request
                 } else if (commandObject.toString().equals("sports")) {
                     SportDAO sportDAO = new SportDAO(conn);
                     Map<String, Sport> sports = new HashMap<>();
@@ -78,6 +82,7 @@ public class Main {
                     }
                     oos.writeObject(sports);
 
+                    // clubs' request
                 } else if (commandObject.toString().equals("clubs")) {
                     ClubDAO clubDAO = new ClubDAO(conn);
                     Map<String, Club> clubs = new HashMap<>();
@@ -89,6 +94,7 @@ public class Main {
                     }
                     oos.writeObject(clubs);
 
+                    // members' request
                 } else if (commandObject.toString().equals("personnes")) {
                     PersonneDAO personneDAO = new PersonneDAO(conn);
                     Map<String, Personne> personnes = new HashMap<>();
@@ -116,7 +122,6 @@ public class Main {
                         for (String clubString : memberClubs) {
                             personne.setClub(new Club(clubString));
                         }
-                        personne.afficher();
                         personnes.put(memberName, personne);
                     }
                     oos.writeObject(personnes);
