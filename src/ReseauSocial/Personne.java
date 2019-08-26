@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Personne extends Profil implements Serializable {
+public class Personne implements Serializable {
     private int id;
     private String nom;
     private String prenom;
@@ -17,6 +17,14 @@ public class Personne extends Profil implements Serializable {
 
     private HashMap<String, Sport> sports = new HashMap<>();
     private HashMap<String, Club> clubs = new HashMap<>();
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getNom() {
         return nom;
@@ -60,9 +68,8 @@ public class Personne extends Profil implements Serializable {
         club.addAdherent(this);
     }
 
-    public Personne(String _nom, String _prenom, int _age) {
-        super();
-        id = Profil.getId();
+    public Personne(int _id, String _nom, String _prenom, int _age) {
+        id = _id;
         nom = _nom;
         prenom = (_prenom.charAt(0) + "").toUpperCase() + _prenom.substring(1);
         age = _age;
@@ -73,7 +80,6 @@ public class Personne extends Profil implements Serializable {
         return prenom + " " + nom;
     }
 
-    @Override
     public void afficher() {
         System.out.println("Profil numéro : " + ConsoleColor.textColor(ConsoleColor.RED, Integer.toString(id)) + ", " +
                 ConsoleColor.textColor(ConsoleColor.BLUE, prenom + " " + nom.toUpperCase()) +
