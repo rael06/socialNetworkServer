@@ -24,7 +24,8 @@ public class SportDAO {
         }
     }
 
-    public ResultSet findByName (String name) {
+    ResultSet findByName (String name) {
+
         String query = "SELECT id, name FROM sports WHERE LOWER(name) = '" + name.toLowerCase() + "'";
         try {
             return conn.createStatement().executeQuery(query);
