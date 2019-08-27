@@ -36,7 +36,7 @@ public class Main {
                 String commandType = (String) request.keySet().toArray()[0];
                 Object commandObject = request.values().toArray()[0];
 
-                // Personne creation or update
+                // Personne crud
                 if (commandObject instanceof Personne) {
                     PersonneDAO personneDAO = new PersonneDAO(conn);
                     Personne personne = (Personne) commandObject;
@@ -48,7 +48,7 @@ public class Main {
                     }
                     oos.writeObject(true);
 
-                    // Sport creation
+                    // Sport crud
                 } else if (commandObject instanceof Sport) {
                     SportDAO sportDAO = new SportDAO(conn);
                     Sport sport = (Sport) commandObject;
@@ -60,15 +60,16 @@ public class Main {
                     }
                     oos.writeObject(true);
 
-                    // Club creation
+                    // Club crud
                 } else if (commandObject instanceof Club) {
                     ClubDAO clubDAO = new ClubDAO(conn);
                     Club club = (Club) commandObject;
-                    ResultSet rs = clubDAO.findByName(club.getNom());
-                    rs.last();
-                    int size = rs.getRow();
-                    if (size == 0) clubDAO.create(club);
-                    else clubDAO.update(club);
+                    if (commandType.equals("delete")) {
+                        clubDAO.delete(club);
+                    } else {
+                        if (club.getId() == 0) clubDAO.create(club);
+                        else clubDAO.update(club);
+                    }
                     oos.writeObject(true);
 
                     // sports' request
@@ -81,8 +82,7 @@ public class Main {
                     while (rs.next()) {
                         sportId = rs.getInt("id");
                         sportName = rs.getString("name");
-                        Sport sport = new Sport(sportId, sportName);
-                        sports.put(sportName, sport);
+                        sports.put(sportName, new Sport(sportId, sportName));
                     }
                     oos.writeObject(sports);
 
@@ -91,10 +91,12 @@ public class Main {
                     ClubDAO clubDAO = new ClubDAO(conn);
                     Map<String, Club> clubs = new HashMap<>();
                     ResultSet rs = clubDAO.selectAll();
+                    int clubId;
                     String clubName;
                     while (rs.next()) {
+                        clubId = rs.getInt("id");
                         clubName = rs.getString("name");
-                        clubs.put(clubName, new Club(clubName));
+                        clubs.put(clubName, new Club(clubId, clubName));
                     }
                     oos.writeObject(clubs);
 

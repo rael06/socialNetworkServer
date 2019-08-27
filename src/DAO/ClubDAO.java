@@ -16,9 +16,9 @@ public class ClubDAO {
     public void create(Club club) {
         String name = club.getNom();
 
-        String addClub = "INSERT INTO clubs (name) VALUES ('" + name + "')";
+        String query = "INSERT INTO clubs (name) VALUES ('" + name + "')";
         try {
-            conn.createStatement().executeUpdate(addClub);
+            conn.createStatement().executeUpdate(query);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -35,7 +35,16 @@ public class ClubDAO {
     }
 
     public void update(Club club) {
-        System.out.println("Le club existe déjà !");
+        int id = club.getId();
+        String name = club.getNom();
+
+        String query = "UPDATE clubs SET name = '" + name + "' " +
+                "WHERE id = " + id;
+        try {
+            conn.createStatement().executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public ResultSet selectAll() {
@@ -46,6 +55,16 @@ public class ClubDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void delete(Club club) {
+        int id = club.getId();
+        String query = "DELETE FROM clubs WHERE id = " + id;
+        try {
+            conn.createStatement().executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
 

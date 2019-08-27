@@ -16,9 +16,9 @@ public class SportDAO {
     public void create(Sport sport) {
         String name = sport.getNom();
 
-        String addSport = "INSERT INTO sports (name) VALUES ('" + name + "')";
+        String query = "INSERT INTO sports (name) VALUES ('" + name + "')";
         try {
-            conn.createStatement().executeUpdate(addSport);
+            conn.createStatement().executeUpdate(query);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -39,10 +39,10 @@ public class SportDAO {
         int id = sport.getId();
         String name = sport.getNom();
 
-        String updateSport = "UPDATE sports SET name = '" + name + "' " +
+        String query = "UPDATE sports SET name = '" + name + "' " +
                 "WHERE id = " + id;
         try {
-            conn.createStatement().executeUpdate(updateSport);
+            conn.createStatement().executeUpdate(query);
         } catch (SQLException e) {
             e.printStackTrace();
         }
