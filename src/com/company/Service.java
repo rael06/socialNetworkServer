@@ -131,6 +131,7 @@ public class Service implements Runnable {
                     }
                     personnes.put(memberName, personne);
                 }
+//                Thread.sleep(3000);
                 oos.writeObject(personnes);
             }
             oos.close();

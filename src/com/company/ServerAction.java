@@ -13,8 +13,7 @@ class ServerAction {
                 Socket socket = serverSocket.accept();
                 Thread t = new Thread(new Service(socket));
                 t.start();
-                Thread.sleep(10000);
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         } while (true);
