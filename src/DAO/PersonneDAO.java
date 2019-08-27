@@ -84,7 +84,6 @@ public class PersonneDAO {
     }
 
     public void update(Personne personne) {
-        System.out.println("Membre déjà inscrit !");
         int id = personne.getId();
         String name = personne.getNom();
         String firstname = personne.getPrenom();
