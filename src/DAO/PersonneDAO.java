@@ -137,8 +137,8 @@ public class PersonneDAO {
 
     public ResultSet selectAll() {
         String query = "SELECT members.id, members.name, firstName, age, " +
-                "GROUP_CONCAT(sports.name SEPARATOR ' ') AS sports, " +
-                "GROUP_CONCAT(clubs.name SEPARATOR ' ') AS clubs " +
+                "GROUP_CONCAT(sports.name SEPARATOR ',') AS sports, " +
+                "GROUP_CONCAT(clubs.name SEPARATOR ',') AS clubs " +
                 "FROM members " +
                 "LEFT OUTER JOIN members_sports " +
                 "ON members.id = members_sports.idMember " +

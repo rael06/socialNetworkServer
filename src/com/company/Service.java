@@ -120,9 +120,9 @@ public class Service implements Runnable {
                     memberFirstName = rs.getString("firstName");
                     memberAge = rs.getInt("age");
                     if (rs.getString("sports") != null)
-                        memberSports = rs.getString("sports").split(" ");
+                        memberSports = rs.getString("sports").split(",");
                     if (rs.getString("clubs") != null)
-                        memberClubs = rs.getString("clubs").split(" ");
+                        memberClubs = rs.getString("clubs").split(",");
                     Personne personne = new Personne(memberId, memberName, memberFirstName, memberAge);
                     for (String sportString : memberSports) {
                         personne.setSport(new Sport(sportString));
