@@ -150,7 +150,6 @@ public class PersonneDAO {
                 "ON clubs.id = members_clubs.idClub " +
                 "GROUP BY members.id " +
                 "ORDER BY members.name, firstName";
-        System.out.println(query);
         try {
             return conn.createStatement().executeQuery(query);
         } catch (SQLException e) {
