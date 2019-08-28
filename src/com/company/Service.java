@@ -14,6 +14,7 @@ import java.net.Socket;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Service implements Runnable {
@@ -76,7 +77,7 @@ public class Service implements Runnable {
                 // sports' request
             } else if (commandObject.toString().equals("sports")) {
                 SportDAO sportDAO = new SportDAO(conn);
-                Map<String, Sport> sports = new HashMap<>();
+                Map<String, Sport> sports = new LinkedHashMap<>();
                 ResultSet rs = sportDAO.selectAll();
                 int sportId;
                 String sportName;
@@ -90,7 +91,7 @@ public class Service implements Runnable {
                 // clubs' request
             } else if (commandObject.toString().equals("clubs")) {
                 ClubDAO clubDAO = new ClubDAO(conn);
-                Map<String, Club> clubs = new HashMap<>();
+                Map<String, Club> clubs = new LinkedHashMap<>();
                 ResultSet rs = clubDAO.selectAll();
                 int clubId;
                 String clubName;
@@ -104,7 +105,7 @@ public class Service implements Runnable {
                 // members' request
             } else if (commandObject.toString().equals("personnes")) {
                 PersonneDAO personneDAO = new PersonneDAO(conn);
-                Map<String, Personne> personnes = new HashMap<>();
+                Map<String, Personne> personnes = new LinkedHashMap<>();
                 ResultSet rs = personneDAO.selectAll();
                 int memberId;
                 String memberName;

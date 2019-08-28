@@ -50,7 +50,7 @@ public class SportDAO {
     }
 
     public ResultSet selectAll() {
-        String query = "SELECT id, name FROM sports";
+        String query = "SELECT id, name FROM sports ORDER BY name";
         try {
             return conn.createStatement().executeQuery(query);
         } catch (SQLException e) {

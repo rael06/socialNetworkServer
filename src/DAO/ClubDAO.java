@@ -48,7 +48,7 @@ public class ClubDAO {
     }
 
     public ResultSet selectAll() {
-        String query = "SELECT id, name FROM clubs";
+        String query = "SELECT id, name FROM clubs ORDER BY name";
         try {
             return conn.createStatement().executeQuery(query);
         } catch (SQLException e) {
