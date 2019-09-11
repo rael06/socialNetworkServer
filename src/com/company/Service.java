@@ -133,6 +133,7 @@ public class Service implements Runnable {
                     personnes.put(memberName, personne);
                 }
 
+
                 // pour tester le multi-threading
 //                Thread.sleep(3000);
                 // !
